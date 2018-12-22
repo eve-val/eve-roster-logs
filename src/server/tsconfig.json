@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+      "outDir": "../../built/",
+      "module": "commonjs",
+      "target": "ES2017",
+      "sourceMap": true,
+      "strict": true,
+      "alwaysStrict": true,
+      "noImplicitReturns": true,
+  },
+  "include": [
+    "./**/*",
+    "../shared/**/*",
+  ],
+}

@@ -1,0 +1,30 @@
+/*
+
+This is a dummy config file. The real files are:
+
+  src/server/tsconfig.json
+  src/client/tsconfig.json
+
+This file exists to work around a bug in the Vetur plugin for VS Code, which
+supplies Intellisense to .vue files. It only looks for `tsconfig.json` in
+the root of the project directory, so we give it a fake one here so it can
+analyze our client code properly.
+
+See https://github.com/vuejs/vetur/issues/815.
+
+*/
+{
+  "compilerOptions": {
+    "outDir": "built/client-dummy/",
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "target": "es5"
+  },
+  "include": [
+    "./src/client/**/*",
+    "./src/shared/**/*"
+  ],
+}

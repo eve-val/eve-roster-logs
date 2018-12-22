@@ -1,0 +1,15 @@
+{
+  "name": "eve-roster-logs",
+  "description": "Logs viewer for SOUND roster app",
+  "keywords": [
+    "nodejs",
+    "express"
+  ],
+  "repository": "https://github.com/7sempra/eve-roster-logs",
+  "scripts": {
+    "dokku": {
+      "predeploy": "npm run build",
+      "postdeploy": ""
+    }
+  }
+}

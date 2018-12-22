@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    // Webpack builds our client TypeScript and webpack has its own config to
+    // determine outDir, so this does nothing. Webpack respects the rest of
+    // this file, though.
+    "outDir": "../../built/client-raw/",
+
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "target": "es5"
+  },
+  "include": [
+    "./**/*",
+    "../shared/**/*",
+    "../server/**/*.spec.ts",
+  ],
+}
