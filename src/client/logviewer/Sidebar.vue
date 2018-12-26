@@ -38,7 +38,7 @@ contents are clickable router links.
 
 <script lang="ts">
 import Vue from 'vue';
-import axios from 'axios';
+import { ajax } from '../ajax';
 import { DirEntryJson } from '../../shared/routes/DirEntryJson';
 
 export default Vue.extend({
@@ -79,7 +79,7 @@ export default Vue.extend({
       if (this.dirPath == null) {
         return;
       }
-      axios.get<DirEntryJson[]>(`/api/path/${this.dirPath}`)
+      ajax().get<DirEntryJson[]>(`/api/path/${this.dirPath}`)
       .then(response => {
         this.files = response.data;
       })

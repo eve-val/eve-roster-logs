@@ -1,12 +1,15 @@
 {
+  "extends": "../shared/tsconfig.base.json",
+
   "compilerOptions": {
-      "outDir": "../../built/",
-      "module": "commonjs",
-      "target": "ES2017",
-      "sourceMap": true,
-      "strict": true,
-      "alwaysStrict": true,
-      "noImplicitReturns": true,
+    "outDir": "../../built/",
+
+    // Node doesn't support all of es2017, but close enough
+    "target": "ES2017",
+    // Export Node-style modules since this is running on Node
+    "module": "commonjs",
+    // We're running on Node, so use this strategy.
+    "moduleResolution": "node",
   },
   "include": [
     "./**/*",

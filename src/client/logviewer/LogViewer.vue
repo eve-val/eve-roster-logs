@@ -23,11 +23,11 @@ Root component for the log viewer. Contains a sidebar and a viewing area.
 
 <script lang="ts">
 import Vue from 'vue';
-import axios from 'axios';
 
 import MainContent from './MainContent.vue';
 import Sidebar from './Sidebar.vue';
 import { DirEntryJson } from '../../shared/routes/DirEntryJson';
+import { ajax } from '../ajax';
 
 export default Vue.extend({
   components: {
@@ -54,7 +54,7 @@ export default Vue.extend({
   methods: {
     update() {
       const path = this.$route.params.path;
-      axios.get<DirEntryJson>(`/api/stat/${path || ''}`)
+      ajax().get<DirEntryJson>(`/api/stat/${path || ''}`)
       .then(response => {
         this.selectedFile = response.data;
       });

@@ -48,7 +48,7 @@ lines, colorizes them, and allows the user to filter by log level.
 
 <script lang="ts">
 import Vue from 'vue';
-import axios from 'axios';
+import { ajax } from '../ajax';
 import { DirEntryJson } from '../../shared/routes/DirEntryJson';
 
 export default Vue.extend({
@@ -122,7 +122,7 @@ export default Vue.extend({
       if (this.selectedFile.type != 'file') {
         return;
       }
-      axios.get<string>(`/api/path/${this.selectedFile.path}`)
+      ajax().get<string>(`/api/path/${this.selectedFile.path}`)
       .then(response => {
         this.rawText = response.data;
         this.isNewFile = true;

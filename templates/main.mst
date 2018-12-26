@@ -6,5 +6,6 @@
   <body>
     <div id="app"></div>
   </body>
+  <script type="application/json" id="config">{{{escapedPayload}}}</script>
   <script src="/dist/bundle.js"></script>
 </html>

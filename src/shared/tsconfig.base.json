@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // According to the TS team, this should always be set to true; the default
+    // is false for backwards compatibility.
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    "alwaysStrict": true,
+    "sourceMap": true,
+  },
+  "include": [
+    "./**/*",
+    "../shared/**/*",
+  ],
+}

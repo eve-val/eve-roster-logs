@@ -1,20 +1,22 @@
 {
+  "extends": "../shared/tsconfig.base.json",
+
   "compilerOptions": {
     // Webpack builds our client TypeScript and webpack has its own config to
     // determine outDir, so this does nothing. Webpack respects the rest of
     // this file, though.
     "outDir": "../../built/client-raw/",
 
-    "sourceMap": true,
-    "strict": true,
-    "noImplicitReturns": true,
+    // All major browsers support ES2015 by now, so it's fine to target it.
+    "target": "es2015",
+    // Again, since we're targeting es2015, might as well use es2015 modules.
     "module": "es2015",
+    // In order to get access to modules in `node_modules`, we must use
+    // Node-style module-resolution.
     "moduleResolution": "node",
-    "target": "es5"
   },
   "include": [
     "./**/*",
     "../shared/**/*",
-    "../server/**/*.spec.ts",
   ],
 }

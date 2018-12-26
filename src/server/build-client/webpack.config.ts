@@ -1,16 +1,20 @@
-const envalid = require('envalid');
-const webpack = require('webpack');
-const merge = require('webpack-merge');
+import envalid from 'envalid';
+import webpack from 'webpack';
+import merge from 'webpack-merge';
+import commonConfig from './webpack.common';
 
 const env = envalid.cleanEnv(process.env, {}, { strict: true });
 
-const commonConfig = require('./webpack.common.js');
 let modeSpecificConfig =
     env.isProd ? require('./webpack.prod') : require('./webpack.dev');
 
 const mode = env.isProd ? 'production' : 'development';
 
-module.exports = merge.smart(commonConfig, modeSpecificConfig, {
+// Because we called require() instead of import, modeSpecificConfig is the
+// raw module object. However, because the module was declared using ES6
+// syntax, Typescript has put the actual object we want on
+// modeSpecificConfig.default. So we need to reference that:
+const config = merge.smart(commonConfig, modeSpecificConfig.default, {
   mode: mode,
 
   plugins: [
@@ -23,3 +27,5 @@ module.exports = merge.smart(commonConfig, modeSpecificConfig, {
     }),
   ],
 });
+
+export default config;

@@ -1,6 +1,8 @@
-const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+import path from 'path';
+import CleanWebpackPlugin from 'clean-webpack-plugin';
+import { getRootPath } from '../util/getRootPath';
+import webpack = require('webpack');
+const VueLoaderPlugin  = require('vue-loader/lib/plugin');
 
 
 // Much of this is based on the Typescript Vue Starter page,
@@ -9,11 +11,11 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 // See https://webpack.js.org/configuration/ for docs on this config format.
 
-const PROJECT_ROOT = path.resolve(__dirname);
+const PROJECT_ROOT = getRootPath();
 const CLIENT_SRC_ROOT = path.resolve(PROJECT_ROOT, 'src/client');
 const OUT_ROOT = path.resolve(PROJECT_ROOT, 'built/client');
 
-module.exports = {
+const config: webpack.Configuration = {
 
   // Main entry point of the app; the transitive dependencies of this file
   // determine what we compile.
@@ -94,3 +96,5 @@ module.exports = {
     },
   },
 };
+
+export default config;

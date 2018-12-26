@@ -1,6 +1,6 @@
-const webpack = require('webpack');
+import webpack from 'webpack';
 
-module.exports = {
+const config = {
   // Add another entry point to make sure we include the HMR client (this will
   // be in addition to main.ts, which is defined in common)
   entry: ['webpack-hot-middleware/client'],
@@ -14,3 +14,5 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
   ],
 };
+
+export default config;
