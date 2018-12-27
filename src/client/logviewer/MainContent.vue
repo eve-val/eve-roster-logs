@@ -195,7 +195,7 @@ function parseLineV0(line: string): ParsedLine {
     };
   }
 }
-const LINE_V0_PATTERN = /[^ ]+ [^ ]+ ([UEWIVD]) /;
+const LINE_V0_PATTERN = /[^ ]+ +[^ ]+ +([UEWIVD]) /;
 const LINE_V0_LEVEL_MAP = {
   U: LOG_LEVELS.unknown,
   E: LOG_LEVELS.error,
