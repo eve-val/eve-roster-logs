@@ -10,23 +10,33 @@ lines, colorizes them, and allows the user to filter by log level.
 <template>
 <div class="_main-content">
 
-  <div class="toolbar" v-if="isParsed">
-    <label for="log-level-select">Max log level</label>
-    <select id="log-level-select" class="level-select" v-model="maxLogLevel">
-      <option :value="1">Error</option>
-      <option :value="2">Warn</option>
-      <option :value="3">Info</option>
-      <option :value="4">Verbose</option>
-      <option :value="5">Debug</option>
-    </select>
+  <div class="toolbar">
+    <button class="refresh-btn" @click="onRefreshClick">Refresh</button>
 
-    <input
-        id="cb-show-raw"
-        class="cb-show-raw"
-        type="checkbox"
-        v-model="showRaw"
-        >
-    <label for="cb-show-raw">Show raw</label>
+    <template v-if="isParsed">
+      <label class="level-select-label" for="log-level-select">
+        Max log level
+      </label>
+      <select id="log-level-select" class="level-select" v-model="maxLogLevel">
+        <option :value="1">Error</option>
+        <option :value="2">Warn</option>
+        <option :value="3">Info</option>
+        <option :value="4">Verbose</option>
+        <option :value="5">Debug</option>
+      </select>
+
+      <input
+          id="cb-show-raw"
+          class="cb-show-raw"
+          type="checkbox"
+          v-model="showRaw"
+          >
+      <label for="cb-show-raw">Show raw</label>
+    </template>
+
+    <div class="logout-cnt">
+      <a href="/logout">Log out</a>
+    </div>
   </div>
 
   <div class="scroller" ref="scroller">
@@ -61,7 +71,7 @@ export default Vue.extend({
       rawText: null as string | null,
       showRaw: false,
       maxLogLevel: 2,
-      isNewFile: false,
+      scrollToBottomOnNextUpdate: false,
     };
   },
 
@@ -91,14 +101,14 @@ export default Vue.extend({
   },
 
   created() {
-    this.fetchData();
+    this.fetchData(true /* scrollToBottom */);
   },
 
   updated() {
-    if (this.isNewFile) {
+    if (this.scrollToBottomOnNextUpdate) {
       // Scroll to bottom of the content if is recognized log file; otherwise
       // scroll to top.
-      this.isNewFile = false;
+      this.scrollToBottomOnNextUpdate = false;
       this.$nextTick(() => {
         const scrollTop =
             this.isParsed ? (<Element>this.$refs.scroller).scrollHeight : 0;
@@ -109,13 +119,13 @@ export default Vue.extend({
 
   watch: {
     selectedFile() {
-      this.fetchData();
+      this.rawText = null;
+      this.fetchData(true /* scrollToBottom */);
     },
   },
 
   methods: {
-    fetchData() {
-      this.rawText = null;
+    fetchData(scrollToBottom: boolean) {
       if (this.selectedFile == null) {
         return;
       }
@@ -125,12 +135,16 @@ export default Vue.extend({
       ajax().get<string>(`/api/path/${this.selectedFile.path}`)
       .then(response => {
         this.rawText = response.data;
-        this.isNewFile = true;
+        this.scrollToBottomOnNextUpdate = scrollToBottom;
       });
     },
 
     getLineClass(line: ParsedLine) {
       return LOG_LEVEL_CLASSES[line.level];
+    },
+
+    onRefreshClick() {
+      this.fetchData(true /* scrollToBottom */);
     },
   },
 });
@@ -207,12 +221,33 @@ const ROSTER_LOG_FILE_FORMAT_DECLARATION = /^@format:(.+)/;
 }
 
 .toolbar {
+  display: flex;
   padding: 15px 10px;
   border-bottom: 1px solid #DDD;
+  align-items: center;
+}
+
+.refresh-btn {
+  font-size: 14px;
+}
+
+.level-select-label {
+  margin-left: 50px;
+}
+
+.level-select {
+  margin-left: 4px;
+  font-size: 14px;
 }
 
 .cb-show-raw {
-  margin-left: 20px;
+  margin-left: 50px;
+  margin-right: 5px;
+}
+
+.logout-cnt {
+  flex: 1;
+  text-align: right;
 }
 
 .scroller {
@@ -236,15 +271,10 @@ const ROSTER_LOG_FILE_FORMAT_DECLARATION = /^@format:(.+)/;
 }
 
 .parsed-line.error {
-  color: #b90606;
+  color: #800202;
 }
 
 .parsed-line.warn {
-  color: #cc7e00;
-}
-
-.level-select {
-  margin-left: 4px;
-  font-size: 14px;
+  color: #985f04;
 }
 </style>
