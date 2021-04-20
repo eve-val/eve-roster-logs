@@ -7,7 +7,7 @@
     "start": "node built/server/main.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "pretty-check": "prettier --check .",
-    "build": "tsc -p src/server",
+    "build": "tsc -p src/server && webpack --progress --config built/server/build-client/webpack.prod.js",
     "dev": "tsc -p src/server --watch"
   },
   "author": "Of Sound Mind (of-sound-mind.com)",
