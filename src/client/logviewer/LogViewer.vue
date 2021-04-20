@@ -70,6 +70,7 @@ export default Vue.extend({
   display: flex;
   flex-direction: row;
   flex: 1;
+  height: 100%;
 }
 
 .sidebar {
