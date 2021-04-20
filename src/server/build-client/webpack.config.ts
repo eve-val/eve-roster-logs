@@ -1,9 +1,9 @@
-import envalid from "envalid";
+import { cleanEnv } from "envalid";
 import webpack from "webpack";
 import merge from "webpack-merge";
 import commonConfig from "./webpack.common";
 
-const env = envalid.cleanEnv(process.env, {});
+const env = cleanEnv(process.env, {});
 
 let modeSpecificConfig = env.isProd
   ? require("./webpack.prod")
