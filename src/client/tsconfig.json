@@ -7,10 +7,8 @@
     // this file, though.
     "outDir": "../../built/client-raw/",
 
-    // All major browsers support ES2015 by now, so it's fine to target it.
-    "target": "es2015",
-    // Again, since we're targeting es2015, might as well use es2015 modules.
-    "module": "es2015",
+    "target": "es2020",
+    "module": "es2020",
     // In order to get access to modules in `node_modules`, we must use
     // Node-style module-resolution.
     "moduleResolution": "node"
