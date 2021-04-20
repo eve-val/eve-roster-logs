@@ -7,7 +7,7 @@
     "start": "node built/server/main.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "pretty-check": "prettier --check .",
-    "build": "tsc -p src/server",
+    "build": "tsc -p src/server && webpack --progress --config built/server/build-client/webpack.config.js",
     "dev": "tsc -p src/server --watch"
   },
   "author": "Of Sound Mind (of-sound-mind.com)",
@@ -21,6 +21,7 @@
     "@types/webpack-dev-middleware": "^4.1.2",
     "@types/webpack-hot-middleware": "^2.16.4",
     "@types/webpack-merge": "^4.1.3",
+    "@vue/compiler-sfc": "^3.0.11",
     "axios": "^0.21.1",
     "clean-webpack-plugin": "^3.0.0",
     "cookie-session": "^2.0.0-beta.3",

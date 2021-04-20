@@ -1,8 +1,8 @@
 import path from "path";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import { getRootPath } from "../util/getRootPath";
-import webpack = require("webpack");
-const VueLoaderPlugin = require("vue-loader/lib/plugin");
+import webpack from "webpack";
+const { VueLoaderPlugin } = require("vue-loader");
 
 // Much of this is based on the Typescript Vue Starter page,
 // https://github.com/Microsoft/TypeScript-Vue-Starter

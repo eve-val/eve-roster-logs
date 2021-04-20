@@ -1,6 +1,6 @@
 import webpack from "webpack";
 
-const config = {
+const config: webpack.Configuration = {
   // Add another entry point to make sure we include the HMR client (this will
   // be in addition to main.ts, which is defined in common)
   entry: ["webpack-hot-middleware/client"],
