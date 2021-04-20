@@ -1,18 +1,26 @@
-import webpack from "webpack";
+import merge from 'webpack-merge';
+import { commonConfig } from './webpack.common';
+import { getProjectPaths } from './paths';
+import webpack from 'webpack';
 
-const config = {
-  // Add another entry point to make sure we include the HMR client (this will
-  // be in addition to main.ts, which is defined in common)
-  entry: ["webpack-hot-middleware/client"],
+const paths = getProjectPaths();
+const config: webpack.Configuration = merge(
 
-  // Expose source maps to browser dev tools. Many options here, see docs for
-  // difference trade-offs.
-  devtool: "cheap-module-eval-source-map",
+  commonConfig('development', paths),
+  {
+    // Add another entry point to make sure we include the HMR client (this will
+    // be in addition to main.ts, which is defined in common)
+    entry: ["webpack-hot-middleware/client"],
 
-  plugins: [
-    // Allows for code replacement without page refresh
-    new webpack.HotModuleReplacementPlugin(),
-  ],
-};
+    // Expose source maps to browser dev tools. Many options here, see docs for
+    // difference trade-offs.
+    devtool: "cheap-module-eval-source-map",
+
+    plugins: [
+      // Allows for code replacement without page refresh
+      new webpack.HotModuleReplacementPlugin(),
+    ],
+  },
+);
 
 export default config;
