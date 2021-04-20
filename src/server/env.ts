@@ -34,33 +34,33 @@ const ENV_VARS = {
   }),
 
   // TODO: validate the structure of these
-  AUTH_REQUIRED_CORPS: json<number[]>({
+  AUTH_REQUIRED_CORPS: envalid.json<number[]>({
     desc:
       "[Login] Authenticated characters must be a member of one of these" +
       " corps",
-    devDefault: "[]",
+    devDefault: [],
     example: "[98477920, 98477920]",
   }),
 
-  AUTH_REQUIRED_TITLES: json<string[]>({
+  AUTH_REQUIRED_TITLES: envalid.json<string[]>({
     desc:
       "[Login] Authenticated characters must have at least one of these" +
       " roles",
-    default: "[]",
+    default: [],
   }),
 
-  AUTH_REQUIRED_ROLES: json<string[]>({
+  AUTH_REQUIRED_ROLES: envalid.json<string[]>({
     desc:
       "[Login] Authenticated characters must have at least one of these" +
       " roles",
-    default: "[]",
+    default: [],
   }),
 
-  AUTH_WHITELISTED_CHARS: json<number[]>({
+  AUTH_WHITELISTED_CHARS: envalid.json<number[]>({
     desc:
       "[Login] These characters can log in regardless of other" +
       " restrictions",
-    default: "[]",
+    default: [],
   }),
 };
 
@@ -73,18 +73,9 @@ const ENV_VARS = {
  * read directly from process.env.
  */
 export function parseEnv(env: NodeJS.Process["env"]) {
-  const options: envalid.StrictCleanOptions = {
-    strict: true,
-    dotEnvPath: ".env",
-  };
+  const cleanedEnv = envalid.cleanEnv(process.env, ENV_VARS);
 
-  if (process.env.NODE_ENV == "production") {
-    options.dotEnvPath = null as any; // bug in typings; should allow null
-  }
-
-  const cleanedEnv = envalid.cleanEnv(process.env, ENV_VARS, options);
-
-  if (cleanedEnv.isProd) {
+  if (cleanedEnv.isProduction) {
     process.env.NODE_ENV = "production";
   } else if (cleanedEnv.isDev) {
     process.env.NODE_ENV = "development";
@@ -98,8 +89,3 @@ export function parseEnv(env: NodeJS.Process["env"]) {
 }
 
 export type Env = ReturnType<typeof parseEnv>;
-
-// Typed version of the envalid.json() validator
-function json<T>(spec?: envalid.Spec<string>): envalid.ValidatorSpec<T> {
-  return envalid.json(spec);
-}
