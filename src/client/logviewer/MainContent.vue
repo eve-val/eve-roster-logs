@@ -44,15 +44,15 @@ lines, colorizes them, and allows the user to filter by log level.
 
     <div class="scroller" ref="scroller">
       <div class="parsed-cnt" v-if="isParsed && !showRaw">
+        <!-- display: inline -->
         <div
           class="parsed-line"
           v-for="(line, i) in parsedLines"
           v-if="line.level <= maxLogLevel"
           :key="i"
           :class="getLineClass(line)"
+          >{{ line.rawLine }}</div
         >
-          {{ line.rawLine }}
-        </div>
       </div>
       <div class="raw-cnt" v-else-if="rawText != null">{{ rawText }}</div>
       <div v-else><!-- Show something here? --></div>
