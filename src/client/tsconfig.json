@@ -13,10 +13,7 @@
     "module": "es2015",
     // In order to get access to modules in `node_modules`, we must use
     // Node-style module-resolution.
-    "moduleResolution": "node",
+    "moduleResolution": "node"
   },
-  "include": [
-    "./**/*",
-    "../shared/**/*",
-  ],
+  "include": ["./**/*", "../shared/**/*"]
 }

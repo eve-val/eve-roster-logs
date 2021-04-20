@@ -14,5 +14,5 @@ See https://github.com/vuejs/vetur/issues/815.
 
 */
 {
-  "extends": "./src/client/tsconfig.json",
+  "extends": "./src/client/tsconfig.json"
 }

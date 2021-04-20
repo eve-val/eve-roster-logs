@@ -1,15 +1,15 @@
-import express = require('express');
-import * as querystring from 'querystring';
-import axios from 'axios';
-import { Env } from '../env';
-import { fetchEsi } from '../esi/fetchEsi';
+import express = require("express");
+import * as querystring from "querystring";
+import axios from "axios";
+import { Env } from "../env";
+import { fetchEsi } from "../esi/fetchEsi";
 
 export async function AUTHENTICATE(
   req: express.Request,
-  res: express.Response,
+  res: express.Response
 ) {
   const env = res.context.env;
-  const authCode = req.query['code'];
+  const authCode = req.query["code"] as string;
 
   const tokens = await fetchAccessTokens(env, authCode);
   const authInfo = await fetchAuthInfo(tokens.access_token);
@@ -31,10 +31,10 @@ export async function AUTHENTICATE(
   ]);
 
   const authorized =
-      isOnWhitelist(env, authInfo.CharacterID)
-      || (passesCorpRequirement(env, publicData.corporation_id)
-          && passesTitleRequirement(env, titles)
-          && passesRoleRequirement(env, roles.roles));
+    isOnWhitelist(env, authInfo.CharacterID) ||
+    (passesCorpRequirement(env, publicData.corporation_id) &&
+      passesTitleRequirement(env, titles) &&
+      passesRoleRequirement(env, roles.roles));
 
   if (authorized) {
     req.session = {
@@ -42,38 +42,42 @@ export async function AUTHENTICATE(
       character: authInfo.CharacterID,
       corporation: publicData.corporation_id,
     };
-    res.redirect('/');
+    res.redirect("/");
   } else {
-    res.redirect('/login?message=not_authorized');
+    res.redirect("/login?message=not_authorized");
   }
 }
 
 async function fetchAccessTokens(env: Env, authCode: string) {
-  const ssoCode =
-      Buffer.from(`${env.SSO_CLIENT_ID}:${env.SSO_SECRET_KEY}`)
-          .toString('base64');
+  const ssoCode = Buffer.from(
+    `${env.SSO_CLIENT_ID}:${env.SSO_SECRET_KEY}`
+  ).toString("base64");
 
   const response = await axios.post<AccessTokenResponse>(
-    'https://login.eveonline.com/oauth/token',
+    "https://login.eveonline.com/oauth/token",
     querystring.stringify({
-      grant_type: 'authorization_code',
+      grant_type: "authorization_code",
       code: authCode,
-    }), {
+    }),
+    {
       headers: {
-        'Authorization': 'Basic ' + ssoCode,
+        Authorization: "Basic " + ssoCode,
       },
-    });
+    }
+  );
 
   return response.data;
 }
 
 async function fetchAuthInfo(accessToken: string) {
   const response = await axios.get<AuthInfoResponse>(
-      'https://login.eveonline.com/oauth/verify', {
+    "https://login.eveonline.com/oauth/verify",
+    {
       headers: {
-        'Authorization': 'Bearer ' + accessToken,
+        Authorization: "Bearer " + accessToken,
       },
-  });
+    }
+  );
   return response.data;
 }
 
@@ -116,44 +120,44 @@ function passesRoleRequirement(env: Env, roles: string[]) {
 }
 
 interface AccessTokenResponse {
-  access_token: string,
-  token_type: string,
-  refresh_token: string,
-  expires_in: number,
+  access_token: string;
+  token_type: string;
+  refresh_token: string;
+  expires_in: number;
 }
 
 interface AuthInfoResponse {
-  CharacterID: number,
-  CharacterName: string,
-  ExpiresOn: string,
-  Scopes: string,
-  TokenType: string,
-  CharacterOwnerHash: string,
-  IntellectualProperty: string,
+  CharacterID: number;
+  CharacterName: string;
+  ExpiresOn: string;
+  Scopes: string;
+  TokenType: string;
+  CharacterOwnerHash: string;
+  IntellectualProperty: string;
 }
 
 interface CharacterPublicDataResponse {
-  alliance_id?: number,
-  ancestry_id?: number,
-  birthday: string,
-  bloodline_id: number,
-  corporation_id: number,
-  description?: number,
-  faction_id?: number,
-  gender: 'female' | 'male',
-  name: string,
-  race_id: number,
-  security_status?: number,
+  alliance_id?: number;
+  ancestry_id?: number;
+  birthday: string;
+  bloodline_id: number;
+  corporation_id: number;
+  description?: number;
+  faction_id?: number;
+  gender: "female" | "male";
+  name: string;
+  race_id: number;
+  security_status?: number;
 }
 
 type CharacterTitlesResponse = {
-  name: string,
-  title_id: number,
+  name: string;
+  title_id: number;
 }[];
 
 interface CharacterRolesResponse {
-  roles: string[],
-  roles_at_hq?: string[],
-  roles_at_base?: string[],
-  roles_at_other?: string[],
+  roles: string[];
+  roles_at_hq?: string[];
+  roles_at_base?: string[];
+  roles_at_other?: string[];
 }

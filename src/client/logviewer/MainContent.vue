@@ -8,58 +8,62 @@ lines, colorizes them, and allows the user to filter by log level.
 -->
 
 <template>
-<div class="_main-content">
+  <div class="_main-content">
+    <div class="toolbar">
+      <button class="refresh-btn" @click="onRefreshClick">Refresh</button>
 
-  <div class="toolbar">
-    <button class="refresh-btn" @click="onRefreshClick">Refresh</button>
+      <template v-if="isParsed">
+        <label class="level-select-label" for="log-level-select">
+          Max log level
+        </label>
+        <select
+          id="log-level-select"
+          class="level-select"
+          v-model="maxLogLevel"
+        >
+          <option :value="1">Error</option>
+          <option :value="2">Warn</option>
+          <option :value="3">Info</option>
+          <option :value="4">Verbose</option>
+          <option :value="5">Debug</option>
+        </select>
 
-    <template v-if="isParsed">
-      <label class="level-select-label" for="log-level-select">
-        Max log level
-      </label>
-      <select id="log-level-select" class="level-select" v-model="maxLogLevel">
-        <option :value="1">Error</option>
-        <option :value="2">Warn</option>
-        <option :value="3">Info</option>
-        <option :value="4">Verbose</option>
-        <option :value="5">Debug</option>
-      </select>
-
-      <input
+        <input
           id="cb-show-raw"
           class="cb-show-raw"
           type="checkbox"
           v-model="showRaw"
-          >
-      <label for="cb-show-raw">Show raw</label>
-    </template>
+        />
+        <label for="cb-show-raw">Show raw</label>
+      </template>
 
-    <div class="logout-cnt">
-      <a href="/logout">Log out</a>
+      <div class="logout-cnt">
+        <a href="/logout">Log out</a>
+      </div>
     </div>
-  </div>
 
-  <div class="scroller" ref="scroller">
+    <div class="scroller" ref="scroller">
       <div class="parsed-cnt" v-if="isParsed && !showRaw">
         <div
-            class="parsed-line"
-            v-for="(line, i) in parsedLines"
-            v-if="line.level <= maxLogLevel"
-            :key="i"
-            :class="getLineClass(line)"
-            >{{ line.rawLine }}</div>
+          class="parsed-line"
+          v-for="(line, i) in parsedLines"
+          v-if="line.level <= maxLogLevel"
+          :key="i"
+          :class="getLineClass(line)"
+        >
+          {{ line.rawLine }}
+        </div>
       </div>
       <div class="raw-cnt" v-else-if="rawText != null">{{ rawText }}</div>
       <div v-else><!-- Show something here? --></div>
+    </div>
   </div>
-
-</div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { ajax } from '../ajax';
-import { DirEntryJson } from '../../shared/routes/DirEntryJson';
+import Vue from "vue";
+import { ajax } from "../ajax";
+import { DirEntryJson } from "../../shared/routes/DirEntryJson";
 
 export default Vue.extend({
   props: {
@@ -77,15 +81,17 @@ export default Vue.extend({
 
   computed: {
     isParsed(): boolean {
-      return this.rawText != null
-          && ROSTER_LOG_FILE_FORMAT_DECLARATION.test(this.rawText);
+      return (
+        this.rawText != null &&
+        ROSTER_LOG_FILE_FORMAT_DECLARATION.test(this.rawText)
+      );
     },
 
     parsedLines(): ParsedLine[] {
       if (this.rawText == null) {
         return [];
       }
-      const lines = this.rawText.split('\n');
+      const lines = this.rawText.split("\n");
       const parsedLines = [];
       let parser: (line: string) => ParsedLine = parseLineUnknown;
       for (let line of lines) {
@@ -97,7 +103,7 @@ export default Vue.extend({
         }
       }
       return parsedLines;
-    }
+    },
   },
 
   created() {
@@ -110,8 +116,9 @@ export default Vue.extend({
       // scroll to top.
       this.scrollToBottomOnNextUpdate = false;
       this.$nextTick(() => {
-        const scrollTop =
-            this.isParsed ? (<Element>this.$refs.scroller).scrollHeight : 0;
+        const scrollTop = this.isParsed
+          ? (<Element>this.$refs.scroller).scrollHeight
+          : 0;
         (<Element>this.$refs.scroller).scrollTop = scrollTop;
       });
     }
@@ -129,14 +136,15 @@ export default Vue.extend({
       if (this.selectedFile == null) {
         return;
       }
-      if (this.selectedFile.type != 'file') {
+      if (this.selectedFile.type != "file") {
         return;
       }
-      ajax().get<string>(`/api/path/${this.selectedFile.path}`)
-      .then(response => {
-        this.rawText = response.data;
-        this.scrollToBottomOnNextUpdate = scrollToBottom;
-      });
+      ajax()
+        .get<string>(`/api/path/${this.selectedFile.path}`)
+        .then((response) => {
+          this.rawText = response.data;
+          this.scrollToBottomOnNextUpdate = scrollToBottom;
+        });
     },
 
     getLineClass(line: ParsedLine) {
@@ -159,17 +167,17 @@ const LOG_LEVELS = {
 };
 
 const LOG_LEVEL_CLASSES = {
-  [LOG_LEVELS.unknown]: 'unknown',
-  [LOG_LEVELS.error]: 'error',
-  [LOG_LEVELS.warn]: 'warn',
-  [LOG_LEVELS.info]: 'info',
-  [LOG_LEVELS.verbose]: 'verbose',
-  [LOG_LEVELS.debug]: 'debug',
-}
+  [LOG_LEVELS.unknown]: "unknown",
+  [LOG_LEVELS.error]: "error",
+  [LOG_LEVELS.warn]: "warn",
+  [LOG_LEVELS.info]: "info",
+  [LOG_LEVELS.verbose]: "verbose",
+  [LOG_LEVELS.debug]: "debug",
+};
 
 function getParser(format: string) {
   switch (format) {
-    case 'roster_log_file_0':
+    case "roster_log_file_0":
       return parseLineV0;
     default:
       return parseLineUnknown;
@@ -206,8 +214,8 @@ const LINE_V0_LEVEL_MAP = {
 } as { [key: string]: number };
 
 interface ParsedLine {
-  rawLine: string,
-  level: number,
+  rawLine: string;
+  level: number;
 }
 
 const ROSTER_LOG_FILE_FORMAT_DECLARATION = /^@format:(.+)/;
@@ -223,7 +231,7 @@ const ROSTER_LOG_FILE_FORMAT_DECLARATION = /^@format:(.+)/;
 .toolbar {
   display: flex;
   padding: 15px 10px;
-  border-bottom: 1px solid #DDD;
+  border-bottom: 1px solid #ddd;
   align-items: center;
 }
 
@@ -258,13 +266,13 @@ const ROSTER_LOG_FILE_FORMAT_DECLARATION = /^@format:(.+)/;
 }
 
 .raw-cnt {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   white-space: pre-wrap;
   font-size: 14px;
 }
 
 .parsed-cnt {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   white-space: pre-wrap;
   word-break: break-all;
   font-size: 14px;

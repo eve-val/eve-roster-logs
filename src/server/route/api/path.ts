@@ -1,17 +1,16 @@
-import * as path from 'path';
-import * as fs from 'fs';
-import express = require('express');
-import { DirEntryJson } from '../../../shared/routes/DirEntryJson';
-import { writeJson } from '../../util/writeJson';
-import { sanitizePath } from '../../util/sanitizePath';
-import { BadRequestError } from '../../error/BadRequestError';
+import * as path from "path";
+import * as fs from "fs";
+import express = require("express");
+import { DirEntryJson } from "../../../shared/routes/DirEntryJson";
+import { writeJson } from "../../util/writeJson";
+import { sanitizePath } from "../../util/sanitizePath";
+import { BadRequestError } from "../../error/BadRequestError";
 
 export function API_PATH(
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction,
-    ) {
-
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) {
   const rawPath: string = req.params[0];
   const sanitizedPath = sanitizePath(rawPath);
   if (sanitizedPath == null) {
@@ -21,11 +20,11 @@ export function API_PATH(
 
   fs.lstat(absPath, (err, stat) => {
     if (err) {
-      if (err.code == 'ENOENT') {
+      if (err.code == "ENOENT") {
         // TODO throw 404
         next(new Error(`Not found: "${rawPath}"`));
       } else {
-        console.error('ERROR when lstating', absPath);
+        console.error("ERROR when lstating", absPath);
         console.error(err);
         next(err);
       }
@@ -55,10 +54,7 @@ function dirToJson(dirname: string, files: fs.Dirent[]) {
       path: path.join(dirname, file.name),
       name: file.name,
       dirname: dirname,
-      type:
-          file.isFile() ? 'file' :
-          file.isDirectory() ? 'directory' :
-          'other',
+      type: file.isFile() ? "file" : file.isDirectory() ? "directory" : "other",
     });
   }
 

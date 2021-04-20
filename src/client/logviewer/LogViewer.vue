@@ -5,29 +5,22 @@ Root component for the log viewer. Contains a sidebar and a viewing area.
 -->
 
 <template>
-<div class="_log-viewer">
-  <div class="container">
-    <sidebar
-        class="sidebar"
-        :selectedFile="selectedFile"
-        >
-    </sidebar>
-    <main-content
-        class="main-content"
-        :selectedFile="selectedFile"
-        >
-    </main-content>
+  <div class="_log-viewer">
+    <div class="container">
+      <sidebar class="sidebar" :selectedFile="selectedFile"> </sidebar>
+      <main-content class="main-content" :selectedFile="selectedFile">
+      </main-content>
+    </div>
   </div>
-</div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 
-import MainContent from './MainContent.vue';
-import Sidebar from './Sidebar.vue';
-import { DirEntryJson } from '../../shared/routes/DirEntryJson';
-import { ajax } from '../ajax';
+import MainContent from "./MainContent.vue";
+import Sidebar from "./Sidebar.vue";
+import { DirEntryJson } from "../../shared/routes/DirEntryJson";
+import { ajax } from "../ajax";
 
 export default Vue.extend({
   components: {
@@ -46,7 +39,7 @@ export default Vue.extend({
   },
 
   watch: {
-    '$route' (to, from) {
+    $route(to, from) {
       this.update();
     },
   },
@@ -54,16 +47,16 @@ export default Vue.extend({
   methods: {
     update() {
       const path = this.$route.params.path;
-      ajax().get<DirEntryJson>(`/api/stat/${path || ''}`)
-      .then(response => {
-        this.selectedFile = response.data;
-      });
-    }
+      ajax()
+        .get<DirEntryJson>(`/api/stat/${path || ""}`)
+        .then((response) => {
+          this.selectedFile = response.data;
+        });
+    },
   },
 
-  computed: {
-  },
-})
+  computed: {},
+});
 </script>
 
 <style scoped>

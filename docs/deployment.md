@@ -15,11 +15,11 @@ The command to invoke the server is:
 
 The following environment variables must be set before starting the server:
 
-* `NODE_ENV` - should be set to `production`
-* `PORT` - should be set to whatever your setup requires. If you aren't doing
-any proxying, then this should be `80`.
-* `ROOT_DIR` - Absolute path to the folder that contains the log files you want
-to serve.
+- `NODE_ENV` - should be set to `production`
+- `PORT` - should be set to whatever your setup requires. If you aren't doing
+  any proxying, then this should be `80`.
+- `ROOT_DIR` - Absolute path to the folder that contains the log files you want
+  to serve.
 
 There are various ways to set env variables; use what is most appropriate for
 your setup. If you need a suggestion, `node-foreman` is a good place to start.

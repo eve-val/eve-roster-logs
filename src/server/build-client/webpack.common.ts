@@ -1,9 +1,8 @@
-import path from 'path';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
-import { getRootPath } from '../util/getRootPath';
-import webpack = require('webpack');
-const VueLoaderPlugin  = require('vue-loader/lib/plugin');
-
+import path from "path";
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import { getRootPath } from "../util/getRootPath";
+import webpack = require("webpack");
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 // Much of this is based on the Typescript Vue Starter page,
 // https://github.com/Microsoft/TypeScript-Vue-Starter
@@ -12,43 +11,41 @@ const VueLoaderPlugin  = require('vue-loader/lib/plugin');
 // See https://webpack.js.org/configuration/ for docs on this config format.
 
 const PROJECT_ROOT = getRootPath();
-const CLIENT_SRC_ROOT = path.resolve(PROJECT_ROOT, 'src/client');
-const OUT_ROOT = path.resolve(PROJECT_ROOT, 'built/client');
+const CLIENT_SRC_ROOT = path.resolve(PROJECT_ROOT, "src/client");
+const OUT_ROOT = path.resolve(PROJECT_ROOT, "built/client");
 
 const config: webpack.Configuration = {
-
   // Main entry point of the app; the transitive dependencies of this file
   // determine what we compile.
-  entry: [path.join(CLIENT_SRC_ROOT, 'main.ts')],
+  entry: [path.join(CLIENT_SRC_ROOT, "main.ts")],
 
   output: {
     // Directory to write compiled JS and any static assets to
     path: OUT_ROOT,
 
     // File to write compiled JS to (plus any CSS)
-    filename: 'bundle.js',
+    filename: "bundle.js",
 
     // Public URL where compiled assets will be hosted (so they can refer to
     // one another).
-    publicPath: '/dist/',
+    publicPath: "/dist/",
   },
 
   module: {
     rules: [
-
       // Compilation for Vue single file components (*.vue)
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
+        loader: "vue-loader",
       },
 
       // Compilation for Typescript files
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
+        loader: "ts-loader",
         exclude: /node_modules/,
         options: {
-          configFile: path.join(CLIENT_SRC_ROOT, 'tsconfig.json'),
+          configFile: path.join(CLIENT_SRC_ROOT, "tsconfig.json"),
           appendTsSuffixTo: [/\.vue$/],
         },
       },
@@ -56,28 +53,25 @@ const config: webpack.Configuration = {
       // CSS processing (for both .vue files and normal .css files)
       {
         test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader'
-        ]
+        use: ["vue-style-loader", "css-loader"],
       },
 
       // Images
       // TODO: Check if we want to include the hash here
       {
         test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
+        loader: "file-loader",
         options: {
-          name: '[name].[ext]?[hash]'
-        }
+          name: "[name].[ext]?[hash]",
+        },
       },
-    ]
+    ],
   },
 
   plugins: [
     // Cleans up any obsolete build artifacts (e.g. images that have since been
     // deleted).
-    new CleanWebpackPlugin([OUT_ROOT], { verbose: false }),
+    new CleanWebpackPlugin({ verbose: false }),
 
     // Required for loading .vue files
     new VueLoaderPlugin(),
@@ -86,13 +80,13 @@ const config: webpack.Configuration = {
   resolve: {
     // Files with these extensions can be imported without specifying the
     // extension (e.g. './foo' vs. './foo.ts');
-    extensions: [ '.tsx', '.ts', '.js', '.json' ],
+    extensions: [".tsx", ".ts", ".js", ".json"],
 
     alias: {
       // Import alias. Causes `import vue from 'vue'` to point to precompiled
       // vue distributable.
       // The $ indicates an exact match is required.
-      'vue$': 'vue/dist/vue.esm.js'
+      vue$: "vue/dist/vue.esm.js",
     },
   },
 };

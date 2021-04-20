@@ -1,18 +1,18 @@
 <template>
-<div class="_login">
-  <div class="container">
-    <div class="title">Roster Logs Viewer</div>
-    <div class="login-prompt">
-      <a :href="loginUrl">Log in</a>
+  <div class="_login">
+    <div class="container">
+      <div class="title">Roster Logs Viewer</div>
+      <div class="login-prompt">
+        <a :href="loginUrl">Log in</a>
+      </div>
+      <div v-if="message != undefined" class="message">{{ message }}</div>
     </div>
-     <div v-if="message != undefined" class="message">{{ message }}</div>
   </div>
-</div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { ClientConfig } from '../shared/ClientConfig';
+import Vue from "vue";
+import { ClientConfig } from "../shared/ClientConfig";
 
 export default Vue.extend({
   props: {
@@ -21,19 +21,21 @@ export default Vue.extend({
 
   computed: {
     loginUrl(): string {
-      return `https://login.eveonline.com/oauth/authorize?`
-          + this.config.loginUrlParams;
+      return (
+        `https://login.eveonline.com/oauth/authorize?` +
+        this.config.loginUrlParams
+      );
     },
 
     message(): string | undefined {
-      switch (this.$route.query['message']) {
-        case 'not_authorized':
-          return 'Character not authorized for access';
+      switch (this.$route.query["message"]) {
+        case "not_authorized":
+          return "Character not authorized for access";
         default:
           return undefined;
       }
     },
-  }
+  },
 });
 </script>
 

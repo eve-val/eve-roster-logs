@@ -1,8 +1,7 @@
-
 export interface AuthSession {
-  authenticated: number,
-  character: number,
-  corporation: number,
+  authenticated: number;
+  character: number;
+  corporation: number;
 
   // From session plugin
   isChanged?: boolean;
