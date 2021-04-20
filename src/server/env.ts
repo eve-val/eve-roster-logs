@@ -1,40 +1,39 @@
-import * as envalid from "envalid";
+import { cleanEnv, json, str, port } from "envalid";
 
 const ENV_VARS = {
-  ROOT_DIR: envalid.str({
+  ROOT_DIR: str({
     desc: "Absolute path to folder to serve logs from.",
   }),
 
-  PORT: envalid.port({
+  PORT: port({
     desc: "Port to serve traffic from.",
     devDefault: 8080,
   }),
 
-  PUBLIC_HOSTNAME: envalid.str({
+  PUBLIC_HOSTNAME: str({
     desc: "Hostname that this app is served from (for auth redirection)",
     example: "foo.bar.com",
     devDefault: "localhost",
   }),
 
-  SESSION_SECRET: envalid.str({
+  SESSION_SECRET: str({
     desc:
       "Key to use when encrypting session cookie. Changing this key will" +
       " effectively revoke any existing sessions.",
     devDefault: "Drunk and asleep in his boots",
   }),
 
-  SSO_CLIENT_ID: envalid.str({
+  SSO_CLIENT_ID: str({
     desc: "Client ID of registered EVE SSO app (developers.eveonline.com).",
     devDefault: "3a214b61040f4574b9fa350fbe8eef67",
   }),
 
-  SSO_SECRET_KEY: envalid.str({
+  SSO_SECRET_KEY: str({
     desc: "Secret key of registered EVE SSO app (developers.eveonline.com).",
     devDefault: "3XOYavDzS6C3OlnGvSHTe18zuv51oK61gxdg9sCG",
   }),
 
-  // TODO: validate the structure of these
-  AUTH_REQUIRED_CORPS: envalid.json<number[]>({
+  AUTH_REQUIRED_CORPS: json<number[]>({
     desc:
       "[Login] Authenticated characters must be a member of one of these" +
       " corps",
@@ -42,21 +41,21 @@ const ENV_VARS = {
     example: "[98477920, 98477920]",
   }),
 
-  AUTH_REQUIRED_TITLES: envalid.json<string[]>({
+  AUTH_REQUIRED_TITLES: json<string[]>({
     desc:
       "[Login] Authenticated characters must have at least one of these" +
       " roles",
     default: [],
   }),
 
-  AUTH_REQUIRED_ROLES: envalid.json<string[]>({
+  AUTH_REQUIRED_ROLES: json<string[]>({
     desc:
       "[Login] Authenticated characters must have at least one of these" +
       " roles",
     default: [],
   }),
 
-  AUTH_WHITELISTED_CHARS: envalid.json<number[]>({
+  AUTH_WHITELISTED_CHARS: json<number[]>({
     desc:
       "[Login] These characters can log in regardless of other" +
       " restrictions",
@@ -73,7 +72,7 @@ const ENV_VARS = {
  * read directly from process.env.
  */
 export function parseEnv(env: NodeJS.Process["env"]) {
-  const cleanedEnv = envalid.cleanEnv(process.env, ENV_VARS);
+  const cleanedEnv = cleanEnv(process.env, ENV_VARS);
 
   if (cleanedEnv.isProduction) {
     process.env.NODE_ENV = "production";
