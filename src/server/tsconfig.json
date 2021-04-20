@@ -9,10 +9,7 @@
     // Export Node-style modules since this is running on Node
     "module": "commonjs",
     // We're running on Node, so use this strategy.
-    "moduleResolution": "node",
+    "moduleResolution": "node"
   },
-  "include": [
-    "./**/*",
-    "../shared/**/*",
-  ],
+  "include": ["./**/*", "../shared/**/*"]
 }

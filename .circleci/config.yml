@@ -1,0 +1,10 @@
+version: 2.1
+orbs:
+  node: circleci/node@4.2.1
+workflows:
+  build-and-test:
+    jobs:
+      - node/test:
+          version: 14.16.1
+          pkg-manager: yarn
+          run-command: build

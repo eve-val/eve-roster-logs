@@ -10,10 +10,7 @@
     "allowSyntheticDefaultImports": true,
 
     "alwaysStrict": true,
-    "sourceMap": true,
+    "sourceMap": true
   },
-  "include": [
-    "./**/*",
-    "../shared/**/*",
-  ],
+  "include": ["./**/*", "../shared/**/*"]
 }

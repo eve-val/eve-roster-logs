@@ -1,3 +1,3 @@
 export interface ClientConfig {
-  loginUrlParams: string,
+  loginUrlParams: string;
 }

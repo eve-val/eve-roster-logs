@@ -9,7 +9,7 @@
  * .d.ts files for each Vue component: https://github.com/ktsn/vuetype.
  */
 
-declare module '*.vue' {
-  import Vue from 'vue'
-  export default Vue
+declare module "*.vue" {
+  import Vue from "vue";
+  export default Vue;
 }

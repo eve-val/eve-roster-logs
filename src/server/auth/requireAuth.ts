@@ -1,11 +1,10 @@
-import express = require('express');
-import moment from 'moment';
-
+import express = require("express");
+import moment from "moment";
 
 export function requireAuth(
   req: express.Request,
   res: express.Response,
-  next: express.NextFunction,
+  next: express.NextFunction
 ) {
   if (!req.session || req.session.authenticated == undefined) {
     res.sendStatus(401);
@@ -20,7 +19,7 @@ export function requireAuth(
   }
 }
 
-const MAX_AUTH_VALIDITY = moment.duration(1, 'day').asMilliseconds();
+const MAX_AUTH_VALIDITY = moment.duration(1, "day").asMilliseconds();
 
 function clearSession(req: express.Request) {
   (req.session as any) = null;
