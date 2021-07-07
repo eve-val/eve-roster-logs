@@ -95,7 +95,7 @@ function passesCorpRequirement(env: Env, corpId: number) {
 
 function passesTitleRequirement(env: Env, titles: CharacterTitlesResponse) {
   if (env.AUTH_REQUIRED_TITLES.length > 0) {
-    for (let title of titles) {
+    for (const title of titles) {
       if (env.AUTH_REQUIRED_TITLES.includes(title.name)) {
         return true;
       }
@@ -108,7 +108,7 @@ function passesTitleRequirement(env: Env, titles: CharacterTitlesResponse) {
 
 function passesRoleRequirement(env: Env, roles: string[]) {
   if (env.AUTH_REQUIRED_ROLES.length > 0) {
-    for (let role of env.AUTH_REQUIRED_ROLES) {
+    for (const role of env.AUTH_REQUIRED_ROLES) {
       if (roles.includes(role)) {
         return true;
       }

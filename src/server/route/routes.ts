@@ -22,7 +22,7 @@ function INDEX(req: express.Request, res: express.Response) {
   const payload: ClientConfig = {
     loginUrlParams: buildLoginParams(res.context.env),
   };
-  const escapedPayload = JSON.stringify(payload).replace(/\</g, "\\u003c");
+  const escapedPayload = JSON.stringify(payload).replace(/</g, "\\u003c");
 
   res.render("main", { escapedPayload });
 }

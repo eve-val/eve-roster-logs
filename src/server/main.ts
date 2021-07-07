@@ -2,7 +2,8 @@ import { parseEnv } from "./env";
 import { serve } from "./route/express";
 
 // Uses Typescript source files for stack traces
-require("source-map-support").install();
+import sourceMapSupport from "source-map-support";
+sourceMapSupport.install();
 
 // Crash the process in the face of an unhandled promise rejection
 process.on("unhandledRejection", (err) => {
@@ -11,5 +12,5 @@ process.on("unhandledRejection", (err) => {
 });
 
 // Go go go!
-const env = parseEnv(process.env);
+const env = parseEnv();
 serve(env);

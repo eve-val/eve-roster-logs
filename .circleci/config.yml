@@ -5,6 +5,12 @@ workflows:
   build-and-test:
     jobs:
       - node/test:
-          version: 14.16.1
+          version: 14.17.2
           pkg-manager: yarn
           run-command: build
+          name: build
+      - node/test:
+          version: 14.17.2
+          pkg-manager: yarn
+          run-command: test
+          name: test
