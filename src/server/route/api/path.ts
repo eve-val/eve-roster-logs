@@ -49,7 +49,7 @@ export function API_PATH(
 function dirToJson(dirname: string, files: fs.Dirent[]) {
   const out: DirEntryJson[] = [];
 
-  for (let file of files) {
+  for (const file of files) {
     out.push({
       path: path.join(dirname, file.name),
       name: file.name,

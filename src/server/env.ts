@@ -71,7 +71,7 @@ const ENV_VARS = {
  * Returns a collection of parsed vars. Code should use this; it should never
  * read directly from process.env.
  */
-export function parseEnv(env: NodeJS.Process["env"]) {
+export function parseEnv() {
   const cleanedEnv = cleanEnv(process.env, ENV_VARS);
 
   if (cleanedEnv.isProduction) {

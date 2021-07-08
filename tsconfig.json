@@ -1,18 +1,16 @@
-/*
-
-This is a dummy config file. The real files are:
-
-  src/server/tsconfig.json
-  src/client/tsconfig.json
-
-This file exists to work around a bug in the Vetur plugin for VS Code, which
-supplies Intellisense to .vue files. It only looks for `tsconfig.json` in
-the root of the project directory, so we give it a fake one here so it can
-analyze our client code properly.
-
-See https://github.com/vuejs/vetur/issues/815.
-
-*/
 {
-  "extends": "./src/client/tsconfig.json"
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // According to the TS team, this should always be set to true; the default
+    // is false for backwards compatibility.
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    "alwaysStrict": true,
+    "sourceMap": true
+  },
+  "include": ["./**/*", "../shared/**/*"]
 }

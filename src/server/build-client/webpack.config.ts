@@ -5,7 +5,7 @@ import commonConfig from "./webpack.common";
 
 const env = cleanEnv(process.env, {});
 
-let modeSpecificConfig = env.isProd
+const modeSpecificConfig = env.isProd
   ? require("./webpack.prod")
   : require("./webpack.dev");
 
