@@ -28,7 +28,7 @@
     "axios": "^0.21.1",
     "clean-webpack-plugin": "^3.0.0",
     "cookie-session": "^2.0.0-beta.3",
-    "css-loader": "^5.2.6",
+    "css-loader": "^5.2.7",
     "envalid": "^7.1.1",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
